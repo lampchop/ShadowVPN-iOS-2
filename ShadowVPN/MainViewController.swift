@@ -9,7 +9,7 @@
 import UIKit
 import NetworkExtension
 
-let kTunnelProviderBundle = "clowwindy.ShadowVPN.tunnel"
+let kTunnelProviderBundle = "com.fengqingyang.sv.tunnel"
 
 class MainViewController: UITableViewController {
     
