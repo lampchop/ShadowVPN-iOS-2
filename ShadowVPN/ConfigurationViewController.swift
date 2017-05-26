@@ -80,11 +80,11 @@ class ConfigurationViewController: UITableViewController {
             cell.selectionStyle = .None
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "Description"
+                cell.textLabel?.text = "Game Description"
                 cell.textField.placeholder = "Optional"
-                bindData(cell.textField, property: "description")
+                bindData(cell.textField, property: "Game description")
             case 1:
-                cell.textLabel?.text = "Server"
+                cell.textLabel?.text = "Game Server"
                 cell.textField.placeholder = "Server IP"
                 cell.textField.autocapitalizationType = .None
                 cell.textField.autocorrectionType = .No
@@ -106,12 +106,12 @@ class ConfigurationViewController: UITableViewController {
                 cell.textField.autocorrectionType = .No
                 bindData(cell.textField, property: "password")
             case 4:
-                cell.textLabel?.text = "User Token"
+                cell.textLabel?.text = "Game Token"
                 cell.textField.placeholder = "Optional"
                 cell.textField.text = ""
                 cell.textField.autocapitalizationType = .None
                 cell.textField.autocorrectionType = .No
-                bindData(cell.textField, property: "usertoken")
+                bindData(cell.textField, property: "Game usertoken")
             case 5:
                 cell.textLabel?.text = "IP"
                 cell.textField.placeholder = "Required"
@@ -129,8 +129,8 @@ class ConfigurationViewController: UITableViewController {
                 cell.textField.keyboardType = .DecimalPad
                 bindData(cell.textField, property: "subnet")
             case 7:
-                cell.textLabel?.text = "DNS"
-                cell.textField.placeholder = "DNS Server Address"
+                cell.textLabel?.text = "Game DNS"
+                cell.textField.placeholder = "Game DNS Server Address"
                 cell.textField.text = "114.114.114.114,223.5.5.5,8.8.8.8,8.8.4.4,208.67.222.222"
                 cell.textField.autocapitalizationType = .None
                 cell.textField.autocorrectionType = .No
@@ -144,7 +144,7 @@ class ConfigurationViewController: UITableViewController {
                 cell.textField.keyboardType = .NumberPad
                 bindData(cell.textField, property: "mtu")
             case 9:
-                cell.textLabel?.text = "Route"
+                cell.textLabel?.text = "Game Route"
                 cell.textField.text = "chnroutes"
                 cell.textField.enabled = false
                 cell.accessoryType = .DisclosureIndicator
@@ -157,7 +157,7 @@ class ConfigurationViewController: UITableViewController {
             return cell
         case 1:
             let cell = UITableViewCell()
-            cell.textLabel?.text = "Delete This Configuration"
+            cell.textLabel?.text = "Delete This Game Server Configuration"
             cell.textLabel?.textColor = UIColor.redColor()
             return cell
         default:
