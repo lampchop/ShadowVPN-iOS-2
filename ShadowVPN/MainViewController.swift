@@ -104,7 +104,14 @@ class MainViewController: UITableViewController {
         } else {
             let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "configuration")
             let vpnManager = self.vpnManagers[indexPath.row]
-            cell.textLabel?.text = vpnManager.protocolConfiguration?.serverAddress
+            // original shows domain resolved ip address
+            // cell.textLabel?.text = vpnManager.protocolConfiguration?.serverAddress
+            
+            // set text to show original domain
+            let server_address: String = ((vpnManager.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration!["server"] as? String)!
+            NSLog("ui get server_address %@", server_address)
+            
+            cell.textLabel?.text = server_address
             cell.detailTextLabel?.text = (vpnManager.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration!["description"] as? String
             if vpnManager.enabled {
                 cell.imageView?.image = UIImage(named: "checkmark")

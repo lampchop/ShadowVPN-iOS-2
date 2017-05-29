@@ -31,6 +31,46 @@ class ConfigurationViewController: UITableViewController {
 //        self.configuration["route"] = "chnroutes"
     }
     
+    func is_ip_address(server_str: String) -> Bool {
+        let parts = server_str.componentsSeparatedByString(".")
+        if parts.count != 4 {
+            return false;
+        }
+        for part in parts {
+            let ip_part_int = Int(part)
+            if nil == ip_part_int || ip_part_int < 0 || ip_part_int > 255 {
+                return false
+            }
+        }
+        return true;
+    }
+    
+    func domain_resolve(server_string: String) -> String {
+        // server string is already ip address
+        if true == is_ip_address(server_string) {
+            NSLog("%@ is already ip addres, skip resolve", server_string)
+            return server_string
+        }
+        let host = CFHostCreateWithName(nil,server_string).takeRetainedValue()
+        CFHostStartInfoResolution(host, .Addresses, nil)
+        var success: DarwinBoolean = false
+        var resolve_ip_address: String = ""
+        if let addresses = CFHostGetAddressing(host, &success)?.takeUnretainedValue() as NSArray?,
+            let theAddress = addresses.firstObject as? NSData {
+                var hostname = [CChar](count: Int(NI_MAXHOST), repeatedValue: 0)
+                if getnameinfo(UnsafePointer(theAddress.bytes), socklen_t(theAddress.length),
+                    &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
+                        if let numAddress = String.fromCString(hostname) {
+                            // print(numAddress)
+                            NSLog("%@ resolve result:%@", server_string, String(numAddress))
+                            resolve_ip_address = numAddress
+                        }
+                }
+        }
+        NSLog("get resolved ip address[%@]", resolve_ip_address)
+        return resolve_ip_address
+    }
+    
     func save() {
         updateConfiguration()
         if let result = ConfigurationValidator.validate(self.configuration) {
@@ -42,7 +82,13 @@ class ConfigurationViewController: UITableViewController {
             return
         }
         (self.providerManager?.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration = self.configuration
-        self.providerManager?.protocolConfiguration?.serverAddress = self.configuration["server"] as? String
+        // self.providerManager?.protocolConfiguration?.serverAddress = self.configuration["server"] as? String
+        // get server_ip from resolve result, as config item may be an ip address or a domain
+        var server_ip: String = ""
+        server_ip = self.domain_resolve((self.configuration["server"] as? String)!)
+        self.providerManager?.protocolConfiguration?.serverAddress = server_ip
+        NSLog("set vpn server ip address [%@]", server_ip)
+        
         self.providerManager?.localizedDescription = self.configuration["server"] as? String
         
         self.providerManager?.saveToPreferencesWithCompletionHandler { (error) -> Void in
@@ -82,10 +128,12 @@ class ConfigurationViewController: UITableViewController {
             case 0:
                 cell.textLabel?.text = "Description"
                 cell.textField.placeholder = "Optional"
+                cell.textField.text = "Free Line 09:00-17:00"
                 bindData(cell.textField, property: "description")
             case 1:
                 cell.textLabel?.text = "Server"
                 cell.textField.placeholder = "Server IP"
+                cell.textField.text = "i.ssbit.win"
                 cell.textField.autocapitalizationType = .None
                 cell.textField.autocorrectionType = .No
                 bindData(cell.textField, property: "server")
@@ -100,7 +148,7 @@ class ConfigurationViewController: UITableViewController {
             case 3:
                 cell.textLabel?.text = "Password"
                 cell.textField.placeholder = "Required"
-                cell.textField.text = ""
+                cell.textField.text = "666shadowvpn"
                 cell.textField.secureTextEntry = true
                 cell.textField.autocapitalizationType = .None
                 cell.textField.autocorrectionType = .No
@@ -138,7 +186,7 @@ class ConfigurationViewController: UITableViewController {
             case 8:
                 cell.textLabel?.text = "MTU"
                 cell.textField.placeholder = "MTU"
-                cell.textField.text = "1350"
+                cell.textField.text = "1432"
                 cell.textField.autocapitalizationType = .None
                 cell.textField.autocorrectionType = .No
                 cell.textField.keyboardType = .NumberPad
