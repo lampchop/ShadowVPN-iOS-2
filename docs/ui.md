@@ -1,7 +1,7 @@
 UI documentation
 ## Main UI draft
 
-![alt main ui](https://raw.githubusercontent.com/udo-tech-team/ShadowVPN-iOS-2/master/docs/shadowbit-dev4.jpg = 300*500)
+![alt main ui](https://raw.githubusercontent.com/udo-tech-team/ShadowVPN-iOS-2/master/docs/shadowbit-dev4.jpg = 300x500)
 
 This is not a beautiful ui draft but just to demenstrate the interactions between user interfaces.
 
