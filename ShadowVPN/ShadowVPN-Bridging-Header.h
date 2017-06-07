@@ -3,3 +3,5 @@
 //
 
 #import "SimpleTableViewController.h"
+#import "NirKxMenu.h"
+#import "QRCodeScanningVC.h"

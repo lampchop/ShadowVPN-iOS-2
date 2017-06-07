@@ -12,6 +12,16 @@
 		072007021EE85AA9007BF8FD /* icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 072006FE1EE85AA9007BF8FD /* icon-76.png */; };
 		072007031EE85AAA007BF8FD /* icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 072006FF1EE85AA9007BF8FD /* icon-76@2x.png */; };
 		072007041EE85AAA007BF8FD /* icon-83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 072007001EE85AA9007BF8FD /* icon-83.5@2x.png */; };
+		072007191EE861B8007BF8FD /* UIImage+SGHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007081EE861B8007BF8FD /* UIImage+SGHelper.m */; };
+		0720071A1EE861B8007BF8FD /* SGQRCodeScanningVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0720070B1EE861B8007BF8FD /* SGQRCodeScanningVC.m */; };
+		0720071B1EE861B8007BF8FD /* SGQRCodeScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0720070E1EE861B8007BF8FD /* SGQRCodeScanningView.m */; };
+		0720071C1EE861B8007BF8FD /* SGWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007101EE861B8007BF8FD /* SGWebView.m */; };
+		0720071D1EE861B8007BF8FD /* SGQRCodeConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007131EE861B8007BF8FD /* SGQRCodeConst.m */; };
+		0720071E1EE861B8007BF8FD /* SGQRCode.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 072007141EE861B8007BF8FD /* SGQRCode.bundle */; };
+		0720071F1EE861B8007BF8FD /* SGQRCodeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007181EE861B8007BF8FD /* SGQRCodeTool.m */; };
+		072007241EE86217007BF8FD /* NirKxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007231EE86217007BF8FD /* NirKxMenu.m */; };
+		072007291EE86232007BF8FD /* QRCodeScanningVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007261EE86232007BF8FD /* QRCodeScanningVC.m */; };
+		0720072A1EE86232007BF8FD /* ScanSuccessJumpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007281EE86232007BF8FD /* ScanSuccessJumpVC.m */; };
 		5EA8D9810A0C84460A50A3DA /* libPods-tunnel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC75A2A2AB75447D9D64CB9 /* libPods-tunnel.a */; };
 		620629BC1B789A320034179B /* ConfigurationValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620629BB1B789A320034179B /* ConfigurationValidator.swift */; };
 		620629BD1B789DE50034179B /* NSData+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D8D26A1B771B63009FA6FE /* NSData+Hex.swift */; };
@@ -69,6 +79,26 @@
 		072006FE1EE85AA9007BF8FD /* icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-76.png"; path = "Assets.xcassets/AppIcon-1.appiconset/icon-76.png"; sourceTree = "<group>"; };
 		072006FF1EE85AA9007BF8FD /* icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-76@2x.png"; path = "Assets.xcassets/AppIcon-1.appiconset/icon-76@2x.png"; sourceTree = "<group>"; };
 		072007001EE85AA9007BF8FD /* icon-83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-83.5@2x.png"; path = "Assets.xcassets/AppIcon-1.appiconset/icon-83.5@2x.png"; sourceTree = "<group>"; };
+		072007071EE861B8007BF8FD /* UIImage+SGHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SGHelper.h"; sourceTree = "<group>"; };
+		072007081EE861B8007BF8FD /* UIImage+SGHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SGHelper.m"; sourceTree = "<group>"; };
+		0720070A1EE861B8007BF8FD /* SGQRCodeScanningVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeScanningVC.h; sourceTree = "<group>"; };
+		0720070B1EE861B8007BF8FD /* SGQRCodeScanningVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeScanningVC.m; sourceTree = "<group>"; };
+		0720070D1EE861B8007BF8FD /* SGQRCodeScanningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeScanningView.h; sourceTree = "<group>"; };
+		0720070E1EE861B8007BF8FD /* SGQRCodeScanningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeScanningView.m; sourceTree = "<group>"; };
+		0720070F1EE861B8007BF8FD /* SGWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGWebView.h; sourceTree = "<group>"; };
+		072007101EE861B8007BF8FD /* SGWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGWebView.m; sourceTree = "<group>"; };
+		072007121EE861B8007BF8FD /* SGQRCodeConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeConst.h; sourceTree = "<group>"; };
+		072007131EE861B8007BF8FD /* SGQRCodeConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeConst.m; sourceTree = "<group>"; };
+		072007141EE861B8007BF8FD /* SGQRCode.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SGQRCode.bundle; sourceTree = "<group>"; };
+		072007151EE861B8007BF8FD /* SGQRCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCode.h; sourceTree = "<group>"; };
+		072007171EE861B8007BF8FD /* SGQRCodeTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeTool.h; sourceTree = "<group>"; };
+		072007181EE861B8007BF8FD /* SGQRCodeTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeTool.m; sourceTree = "<group>"; };
+		072007221EE86217007BF8FD /* NirKxMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NirKxMenu.h; sourceTree = "<group>"; };
+		072007231EE86217007BF8FD /* NirKxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NirKxMenu.m; sourceTree = "<group>"; };
+		072007251EE86232007BF8FD /* QRCodeScanningVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeScanningVC.h; sourceTree = "<group>"; };
+		072007261EE86232007BF8FD /* QRCodeScanningVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeScanningVC.m; sourceTree = "<group>"; };
+		072007271EE86232007BF8FD /* ScanSuccessJumpVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanSuccessJumpVC.h; sourceTree = "<group>"; };
+		072007281EE86232007BF8FD /* ScanSuccessJumpVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanSuccessJumpVC.m; sourceTree = "<group>"; };
 		52E22CBCA9CEB75CB469204A /* Pods-tunnel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tunnel.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tunnel/Pods-tunnel.debug.xcconfig"; sourceTree = "<group>"; };
 		5FC75A2A2AB75447D9D64CB9 /* libPods-tunnel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tunnel.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		620629BB1B789A320034179B /* ConfigurationValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationValidator.swift; sourceTree = "<group>"; };
@@ -131,6 +161,87 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		072007051EE861B8007BF8FD /* SGQRCode */ = {
+			isa = PBXGroup;
+			children = (
+				072007061EE861B8007BF8FD /* Category */,
+				072007091EE861B8007BF8FD /* Controller */,
+				0720070C1EE861B8007BF8FD /* CustomControls */,
+				072007111EE861B8007BF8FD /* Helper */,
+				072007141EE861B8007BF8FD /* SGQRCode.bundle */,
+				072007151EE861B8007BF8FD /* SGQRCode.h */,
+				072007161EE861B8007BF8FD /* Tools */,
+			);
+			path = SGQRCode;
+			sourceTree = "<group>";
+		};
+		072007061EE861B8007BF8FD /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				072007071EE861B8007BF8FD /* UIImage+SGHelper.h */,
+				072007081EE861B8007BF8FD /* UIImage+SGHelper.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		072007091EE861B8007BF8FD /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0720070A1EE861B8007BF8FD /* SGQRCodeScanningVC.h */,
+				0720070B1EE861B8007BF8FD /* SGQRCodeScanningVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		0720070C1EE861B8007BF8FD /* CustomControls */ = {
+			isa = PBXGroup;
+			children = (
+				0720070D1EE861B8007BF8FD /* SGQRCodeScanningView.h */,
+				0720070E1EE861B8007BF8FD /* SGQRCodeScanningView.m */,
+				0720070F1EE861B8007BF8FD /* SGWebView.h */,
+				072007101EE861B8007BF8FD /* SGWebView.m */,
+			);
+			path = CustomControls;
+			sourceTree = "<group>";
+		};
+		072007111EE861B8007BF8FD /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				072007121EE861B8007BF8FD /* SGQRCodeConst.h */,
+				072007131EE861B8007BF8FD /* SGQRCodeConst.m */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		072007161EE861B8007BF8FD /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				072007171EE861B8007BF8FD /* SGQRCodeTool.h */,
+				072007181EE861B8007BF8FD /* SGQRCodeTool.m */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		072007201EE861E2007BF8FD /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				072007221EE86217007BF8FD /* NirKxMenu.h */,
+				072007231EE86217007BF8FD /* NirKxMenu.m */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
+		072007211EE861EE007BF8FD /* QRCode */ = {
+			isa = PBXGroup;
+			children = (
+				072007251EE86232007BF8FD /* QRCodeScanningVC.h */,
+				072007261EE86232007BF8FD /* QRCodeScanningVC.m */,
+				072007271EE86232007BF8FD /* ScanSuccessJumpVC.h */,
+				072007281EE86232007BF8FD /* ScanSuccessJumpVC.m */,
+			);
+			name = QRCode;
+			sourceTree = "<group>";
+		};
 		486E76D16A13A84BC2514505 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +283,7 @@
 		62A427441B5A3C9700BB4AD9 = {
 			isa = PBXGroup;
 			children = (
+				072007051EE861B8007BF8FD /* SGQRCode */,
 				62A4274F1B5A3C9700BB4AD9 /* ShadowVPN */,
 				62A4276E1B5A3ED800BB4AD9 /* tunnel */,
 				62A4274E1B5A3C9700BB4AD9 /* Products */,
@@ -192,6 +304,8 @@
 		62A4274F1B5A3C9700BB4AD9 /* ShadowVPN */ = {
 			isa = PBXGroup;
 			children = (
+				072007211EE861EE007BF8FD /* QRCode */,
+				072007201EE861E2007BF8FD /* Menu */,
 				625E05021B73D3B70041A9D6 /* Resources */,
 				62D48D7F1B73952D003E4FEE /* Misc */,
 				62D48D7E1B739528003E4FEE /* UI */,
@@ -390,6 +504,7 @@
 				072007011EE85AA9007BF8FD /* icon-60@2x.png in Resources */,
 				072007031EE85AAA007BF8FD /* icon-76@2x.png in Resources */,
 				072007021EE85AA9007BF8FD /* icon-76.png in Resources */,
+				0720071E1EE861B8007BF8FD /* SGQRCode.bundle in Resources */,
 				62A4275B1B5A3C9700BB4AD9 /* LaunchScreen.storyboard in Resources */,
 				06994E921EC6B6F400FCB8BB /* icon-72@2x.png in Resources */,
 				625E05061B73D3C30041A9D6 /* checkmark@2x.png in Resources */,
@@ -446,11 +561,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0720071C1EE861B8007BF8FD /* SGWebView.m in Sources */,
+				0720072A1EE86232007BF8FD /* ScanSuccessJumpVC.m in Sources */,
+				0720071D1EE861B8007BF8FD /* SGQRCodeConst.m in Sources */,
 				620629BD1B789DE50034179B /* NSData+Hex.swift in Sources */,
+				0720071F1EE861B8007BF8FD /* SGQRCodeTool.m in Sources */,
 				62D8D2691B76286F009FA6FE /* ConfigurationTextCell.swift in Sources */,
+				072007241EE86217007BF8FD /* NirKxMenu.m in Sources */,
+				0720071A1EE861B8007BF8FD /* SGQRCodeScanningVC.m in Sources */,
 				623DE1E61B78AAB200B1440F /* SimpleTableViewController.m in Sources */,
+				072007191EE861B8007BF8FD /* UIImage+SGHelper.m in Sources */,
+				0720071B1EE861B8007BF8FD /* SGQRCodeScanningView.m in Sources */,
 				62A427511B5A3C9700BB4AD9 /* AppDelegate.swift in Sources */,
 				626520C41B73ABA10064F653 /* ConfigurationViewController.swift in Sources */,
+				072007291EE86232007BF8FD /* QRCodeScanningVC.m in Sources */,
 				620629BC1B789A320034179B /* ConfigurationValidator.swift in Sources */,
 				626520C21B73AB890064F653 /* MainViewController.swift in Sources */,
 			);
