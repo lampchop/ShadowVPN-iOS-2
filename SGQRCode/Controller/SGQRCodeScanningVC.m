@@ -142,18 +142,28 @@
     // 对选取照片的处理，如果选取的图片尺寸过大，则压缩选取图片，否则不作处理
     image = [UIImage imageSizeWithScreenImage:image];
 
-    // CIDetector(CIDetector可用于人脸识别)进行图片解析，从而使我们可以便捷的从相册中获取到二维码
-    // 声明一个CIDetector，并设定识别类型 CIDetectorTypeQRCode
-    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{ CIDetectorAccuracy : CIDetectorAccuracyHigh }];
+    CIContext *context = [CIContext contextWithOptions:nil];
     
+    // CIDetector(CIDetector可用于人脸识别)进行图片解析，声明一个CIDetector，并设定识别类型 CIDetectorTypeQRCode 来得到二维码信息
+    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:context options:@{CIDetectorAccuracy:CIDetectorAccuracyHigh}];
+
     // 取得识别结果
     NSArray *features = [detector featuresInImage:[CIImage imageWithCGImage:image.CGImage]];
     for (int index = 0; index < [features count]; index ++) {
         CIQRCodeFeature *feature = [features objectAtIndex:index];
         NSString *scannedResult = feature.messageString;
-        //SGQRCodeLog(@"scannedResult - - %@", scannedResult);
+        /*已经成功
+        SGQRCodeLog(@"scannedResult - - %@", scannedResult);
+         */
+        
+        //通过对话框的形式呈现---------------------因为不能成功跳转显示,先以弹出窗口代替
+
+            [self alertControllerMessage:scannedResult];
+
+        //---------------------------------------
         // 在此发通知，告诉子类二维码数据
         [SGQRCodeNotificationCenter postNotificationName:SGQRCodeInformationFromeAibum object:scannedResult];
+
     }
 }
 
@@ -241,6 +251,16 @@ void soundCompleteCallback(SystemSoundID soundID, void *clientData){
     //SGQRCodeLog(@"播放完成...");
 }
 
+//由于要写两次，所以就封装了一个方法
+-(void)alertControllerMessage:(NSString *)message{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alert addAction:action];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 
 @end
+
 

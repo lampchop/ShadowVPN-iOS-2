@@ -53,7 +53,7 @@
     // 提示文字
     UILabel *prompt_message = [[UILabel alloc] init];
     prompt_message.frame = CGRectMake(0, 200, self.view.frame.size.width, 30);
-    prompt_message.text = @"您扫描的条形码结果如下： ";
+    prompt_message.text = @"您扫描的二维码结果如下： ";
     prompt_message.textColor = [UIColor redColor];
     prompt_message.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:prompt_message];

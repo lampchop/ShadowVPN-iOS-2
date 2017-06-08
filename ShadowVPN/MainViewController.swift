@@ -179,14 +179,14 @@ class MainViewController: UITableViewController {
         print("调用成功")
         /** 扫描二维码方法 */
         // 1、 获取摄像设备
-        let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        var device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         if ((device) != nil) {
-            let status: AVAuthorizationStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+            var status: AVAuthorizationStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
             if status == .notDetermined {
                 AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: {(_ granted: Bool) -> Void in
                     if granted {
                         DispatchQueue.main.async(execute: {() -> Void in
-                            let vc = QRCodeScanningVC()
+                            var vc = QRCodeScanningVC()
                             self.navigationController?.pushViewController(vc, animated: true)
                         })
                         NSLog("当前线程 - - %@", Thread.current)
@@ -199,20 +199,20 @@ class MainViewController: UITableViewController {
                 })
             } else if status == .authorized {
                 // 用户允许当前应用访问相机
-                let vc = QRCodeScanningVC()
+                var vc = QRCodeScanningVC()
                 navigationController?.pushViewController(vc, animated: true)
             } else if status == .denied {
                 // 用户拒绝当前应用访问相机
-                let alertC = UIAlertController(title: "⚠️ 警告", message: "请去-> [设置 - 隐私 - 相机 - SGQRCodeExample] 打开访问开关", preferredStyle: (.alert))
-                let alertA = UIAlertAction(title: "确定", style: (.default), handler: {(_ action: UIAlertAction) -> Void in
+                var alertC = UIAlertController(title: "⚠️ 警告", message: "请去-> [设置 - 隐私 - 相机 - SGQRCodeExample] 打开访问开关", preferredStyle: (.alert))
+                var alertA = UIAlertAction(title: "确定", style: (.default), handler: {(_ action: UIAlertAction) -> Void in
                 })
                 alertC.addAction(alertA)
                 present(alertC, animated: true, completion: { _ in })
             } else if status == .restricted {
                 print("因为系统原因, 无法访问相册")
             } else {
-                let alertC = UIAlertController(title: "温馨提示", message: "未检测到您的摄像头", preferredStyle: (.alert))
-                let alertA = UIAlertAction(title: "确定", style: (.default), handler: {(_ action: UIAlertAction) -> Void in
+                var alertC = UIAlertController(title: "温馨提示", message: "未检测到您的摄像头", preferredStyle: (.alert))
+                var alertA = UIAlertAction(title: "确定", style: (.default), handler: {(_ action: UIAlertAction) -> Void in
                 })
                 alertC.addAction(alertA)
                 present(alertC, animated: true, completion: { _ in })
@@ -223,6 +223,7 @@ class MainViewController: UITableViewController {
     
     func clickMenu_2(sender: AnyObject){
         print("点击成功")
+        
         let manager = NETunnelProviderManager()
         manager.loadFromPreferences { (error) -> Void in
             let providerProtocol = NETunnelProviderProtocol()
