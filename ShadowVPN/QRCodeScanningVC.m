@@ -24,30 +24,21 @@
     [SGQRCodeNotificationCenter addObserver:self selector:@selector(SGQRCodeInformationFromeScanning:) name:SGQRCodeInformationFromeScanning object:nil];
 }
 
+//相册
 - (void)SGQRCodeInformationFromeAibum:(NSNotification *)noti {
     NSString *string = noti.object;
-
+    
     ScanSuccessJumpVC *jumpVC = [[ScanSuccessJumpVC alloc] init];
     jumpVC.jump_URL = string;
     [self.navigationController pushViewController:jumpVC animated:YES];
 }
-
+//扫描
 - (void)SGQRCodeInformationFromeScanning:(NSNotification *)noti {
-    SGQRCodeLog(@"noti - - %@", noti);
     NSString *string = noti.object;
     
-    if ([string hasPrefix:@"http"]) {
-        ScanSuccessJumpVC *jumpVC = [[ScanSuccessJumpVC alloc] init];
-        jumpVC.jump_URL = string;
-        [self.navigationController pushViewController:jumpVC animated:YES];
-        
-    } else { // 扫描结果为条形码
-        
-        ScanSuccessJumpVC *jumpVC = [[ScanSuccessJumpVC alloc] init];
-        jumpVC.jump_bar_code = string;
-        [self.navigationController pushViewController:jumpVC animated:YES];
-    }
-}
+    ScanSuccessJumpVC *jumpVC = [[ScanSuccessJumpVC alloc] init];
+    jumpVC.jump_URL = string;
+    [self.navigationController pushViewController:jumpVC animated:YES];}
 
 - (void)dealloc {
     SGQRCodeLog(@"QRCodeScanningVC - dealloc");

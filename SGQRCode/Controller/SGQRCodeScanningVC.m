@@ -152,16 +152,7 @@
     for (int index = 0; index < [features count]; index ++) {
         CIQRCodeFeature *feature = [features objectAtIndex:index];
         NSString *scannedResult = feature.messageString;
-        /*已经成功
-        SGQRCodeLog(@"scannedResult - - %@", scannedResult);
-         */
         
-        //通过对话框的形式呈现---------------------因为不能成功跳转显示,先以弹出窗口代替
-
-            [self alertControllerMessage:scannedResult];
-
-        //---------------------------------------
-        // 在此发通知，告诉子类二维码数据
         [SGQRCodeNotificationCenter postNotificationName:SGQRCodeInformationFromeAibum object:scannedResult];
 
     }
