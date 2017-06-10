@@ -211,8 +211,8 @@ class MainViewController: UITableViewController {
             } else if status == .restricted {
                 print("因为系统原因, 无法访问相册")
             } else {
-                var alertC = UIAlertController(title: "温馨提示", message: "未检测到您的摄像头", preferredStyle: (.alert))
-                var alertA = UIAlertAction(title: "确定", style: (.default), handler: {(_ action: UIAlertAction) -> Void in
+                let alertC = UIAlertController(title: "温馨提示", message: "未检测到您的摄像头", preferredStyle: (.alert))
+                let alertA = UIAlertAction(title: "确定", style: (.default), handler: {(_ action: UIAlertAction) -> Void in
                 })
                 alertC.addAction(alertA)
                 present(alertC, animated: true, completion: { _ in })
