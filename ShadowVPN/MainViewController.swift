@@ -203,7 +203,7 @@ class MainViewController: UITableViewController {
                 navigationController?.pushViewController(vc, animated: true)
             } else if status == .denied {
                 // 用户拒绝当前应用访问相机
-                var alertC = UIAlertController(title: "⚠️ 警告", message: "请去-> [设置 - 隐私 - 相机 - SGQRCodeExample] 打开访问开关", preferredStyle: (.alert))
+                var alertC = UIAlertController(title: "⚠️ 警告", message: "请去-> [设置 - 隐私 - 相机 - ShadowBit] 打开访问开关", preferredStyle: (.alert))
                 var alertA = UIAlertAction(title: "确定", style: (.default), handler: {(_ action: UIAlertAction) -> Void in
                 })
                 alertC.addAction(alertA)
