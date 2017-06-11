@@ -52,19 +52,19 @@ class RouteManager: NSObject {
         } else {
             NSLog("using default route")
             // TODO also support https://github.com/ashi009/bestroutetb
-            IPv4Settings.includedRoutes = [NEIPv4Route.default()]
+            IPv4Settings.includedRoutes = [NEIPv4Route.defaultRoute()]
         }
     }
     
-    func parseCHNRoutes(_ IPv4Settings: NEIPv4Settings) {
+    func parseCHNRoutes(IPv4Settings: NEIPv4Settings) {
         NSLog("parsing chnroutes")
         var routes = [NEIPv4Route]()
-        let chnroutesPath = Bundle.main.path(forResource: "chnroutes", ofType: "txt")
+        let chnroutesPath = NSBundle.mainBundle().pathForResource("chnroutes", ofType: "txt")
         do {
             let content = try String(contentsOfFile: chnroutesPath!)
-            let lines = content.components(separatedBy: "\n")
+            let lines = content.componentsSeparatedByString("\n")
             for line in lines {
-                let parts = line.components(separatedBy: "/")
+                let parts = line.componentsSeparatedByString("/")
                 if parts.count == 2 {
                     let address = parts[0]
                     let subnet = self.cidrToSubnetMask[parts[1]]
@@ -73,9 +73,9 @@ class RouteManager: NSObject {
                 }
             }
         } catch {
-            NSLog("$@", String(describing: error))
+            NSLog("$@", String(error))
         }
-        IPv4Settings.includedRoutes = [NEIPv4Route.default()]
+        IPv4Settings.includedRoutes = [NEIPv4Route.defaultRoute()]
         IPv4Settings.excludedRoutes = routes
     }
 }

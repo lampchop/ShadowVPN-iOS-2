@@ -7,36 +7,12 @@
 //
 
 import UIKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class ConfigurationValidator: NSObject {
     
     // return nil if there's no error
-    class func validateIP(_ ip: String) -> String? {
-        let parts = ip.components(separatedBy: ".")
+    class func validateIP(ip: String) -> String? {
+        let parts = ip.componentsSeparatedByString(".")
         if parts.count != 4 {
             return "Invalid IP: " + ip
         }
@@ -50,7 +26,7 @@ class ConfigurationValidator: NSObject {
     }
     
     // return nil if there's no error
-    class func validate(_ configuration: [String: AnyObject]) -> String? {
+    class func validate(configuration: [String: AnyObject]) -> String? {
         // 1. server must be not empty
         if configuration["server"] == nil || configuration["server"]?.length == 0 {
             return "Server must not be empty"
@@ -70,7 +46,7 @@ class ConfigurationValidator: NSObject {
         // 4. usertoken must be empty or hex of 8 bytes
         if configuration["usertoken"] != nil {
             if let usertoken = configuration["usertoken"] as? String {
-                if Data.fromHexString(usertoken).count != 8 && Data.fromHexString(usertoken).count != 0 {
+                if NSData.fromHexString(usertoken).length != 8 && NSData.fromHexString(usertoken).length != 0 {
                     return "Usertoken must be HEX of 8 bytes (example: 7e335d67f1dc2c01)"
                 }
             }
@@ -100,7 +76,7 @@ class ConfigurationValidator: NSObject {
             return "DNS must not be empty"
         }
         if let dns = configuration["dns"] as? String {
-            let ips = dns.components(separatedBy: ",")
+            let ips = dns.componentsSeparatedByString(",")
             if ips.count == 0 {
                 return "DNS must not be empty"
             }

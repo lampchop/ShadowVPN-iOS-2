@@ -22,23 +22,23 @@ class MainViewController: UITableViewController {
         super.viewDidLoad()
         // self.title = "ShadowVPN"
         self.title = "ShadowBit"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(MainViewController.addConfiguration))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "addConfiguration")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.VPNStatusDidChange(_:)), name: NSNotification.Name.NEVPNStatusDidChange, object: nil)
-        vpnStatusSwitch.addTarget(self, action: #selector(MainViewController.vpnStatusSwitchValueDidChange(_:)), for: .valueChanged)
-//        vpnStatusLabel.textAlignment = .Right
-//        vpnStatusLabel.textColor = UIColor.grayColor()
+       NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("VPNStatusDidChange:"), name: NEVPNStatusDidChangeNotification, object: nil)
+        vpnStatusSwitch.addTarget(self, action: "vpnStatusSwitchValueDidChange:", forControlEvents: .ValueChanged)
+        //        vpnStatusLabel.textAlignment = .Right
+        //        vpnStatusLabel.textColor = UIColor.grayColor()
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NEVPNStatusDidChange, object: nil)
+       NSNotificationCenter.defaultCenter().removeObserver(self, name: NEVPNStatusDidChangeNotification, object: nil)
     }
     
-    func vpnStatusSwitchValueDidChange(_ sender: UISwitch) {
+    func vpnStatusSwitchValueDidChange(sender: UISwitch) {
         do {
             if vpnManagers.count > 0 {
                 if let currentVPNManager = self.currentVPNManager {
-                    if sender.isOn {
+                    if sender.on {
                         try currentVPNManager.connection.startVPNTunnel()
                     } else {
                         currentVPNManager.connection.stopVPNTunnel()
@@ -46,32 +46,32 @@ class MainViewController: UITableViewController {
                 }
             }
         } catch {
-            NSLog("%@", String(describing: error))
+            NSLog("%@", String(error))
         }
     }
-
-    func VPNStatusDidChange(_ notification: Notification?) {
+    
+    func VPNStatusDidChange(notification: NSNotification?) {
         var on = false
         var enabled = false
         if let currentVPNManager = self.currentVPNManager {
             let status = currentVPNManager.connection.status
             switch status {
-            case .connecting:
+            case .Connecting:
                 on = true
                 enabled = false
                 vpnStatusLabel.text = "Connecting..."
                 break
-            case .connected:
+            case .Connected:
                 on = true
                 enabled = true
                 vpnStatusLabel.text = "Connected"
                 break
-            case .disconnecting:
+            case .Disconnecting:
                 on = false
                 enabled = false
                 vpnStatusLabel.text = "Disconnecting..."
                 break
-            case .disconnected:
+            case .Disconnected:
                 on = false
                 enabled = true
                 vpnStatusLabel.text = "Not Connected"
@@ -81,28 +81,28 @@ class MainViewController: UITableViewController {
                 enabled = true
                 break
             }
-            vpnStatusSwitch.isOn = on
-            vpnStatusSwitch.isEnabled = enabled
-            UIApplication.shared.isNetworkActivityIndicatorVisible = !enabled
+            vpnStatusSwitch.on = on
+            vpnStatusSwitch.enabled = enabled
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = !enabled
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.loadConfigurationFromSystem()
         
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = UITableViewCell(style: .value1, reuseIdentifier: "status")
-            cell.selectionStyle = .none
+            let cell = UITableViewCell(style: .Value1, reuseIdentifier: "status")
+            cell.selectionStyle = .None
             cell.textLabel?.text = "Status"
             vpnStatusLabel = cell.detailTextLabel!
             cell.accessoryView = vpnStatusSwitch
             return cell
         } else {
-            let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "configuration")
+            let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "configuration")
             let vpnManager = self.vpnManagers[indexPath.row]
             // original shows domain resolved ip address
             // cell.textLabel?.text = vpnManager.protocolConfiguration?.serverAddress
@@ -113,32 +113,32 @@ class MainViewController: UITableViewController {
             
             cell.textLabel?.text = server_address
             cell.detailTextLabel?.text = (vpnManager.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration!["description"] as? String
-            if vpnManager.isEnabled {
+            if vpnManager.enabled {
                 cell.imageView?.image = UIImage(named: "checkmark")
             } else {
                 cell.imageView?.image = UIImage(named: "checkmark_empty")
             }
-            cell.accessoryType = .detailButton
+            cell.accessoryType = .DetailButton
             return cell
         }
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 {
-            tableView.deselectRow(at: indexPath, animated: true)
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
             let vpnManager = self.vpnManagers[indexPath.row]
-            vpnManager.isEnabled = true
-            vpnManager.saveToPreferences { (error) -> Void in
+            vpnManager.enabled = true
+            vpnManager.saveToPreferencesWithCompletionHandler { (error) -> Void in
                 self.loadConfigurationFromSystem()
             }
         }
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
         } else {
@@ -146,14 +146,13 @@ class MainViewController: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let configurationController = ConfigurationViewController(style:.grouped)
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        let configurationController = ConfigurationViewController(style:.Grouped)
         configurationController.providerManager = self.vpnManagers[indexPath.row]
         self.navigationController?.pushViewController(configurationController, animated: true)
     }
-    
     func addConfiguration() {
-        let menuArray = [KxMenuItem.init("Scan QR img",image: UIImage(named: "Scan QR img"),target: self,action: #selector(self.clickMenu1(sender:))),KxMenuItem.init("Manually Add",image: UIImage(named: "Manually Add"),target: self,action: #selector(self.clickMenu_2(sender:)))]
+        let menuArray = [KxMenuItem.init("Scan QR img",image: UIImage(named: "Scan QR img"),target: self,action: #selector(MainViewController.clickMenu_1)),KxMenuItem.init("Manually Add",image: UIImage(named: "Manually Add"),target: self,action: #selector(MainViewController.clickMenu_2))]
         /*设置菜单字体*/
         KxMenu.setTitleFont(UIFont(name: "HelveticaNeue", size: 15))
         
@@ -172,24 +171,23 @@ class MainViewController: UITableViewController {
         
         /*菜单位置*/
         let a = CGRect(x: self.view.frame.width-27, y: 70, width: 0, height: 0)
-        KxMenu.show(in: self.view, from: a, menuItems: menuArray as Any as! [Any], withOptions: options)
+        KxMenu.showMenuInView(self.view, fromRect: a, menuItems: menuArray, withOptions: options)
     }
-
-    func clickMenu1(sender: AnyObject) {
+    func clickMenu_1() {
         print("调用成功")
         /** 扫描二维码方法 */
         // 1、 获取摄像设备
-        var device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
-        if ((device) != nil) {
-            var status: AVAuthorizationStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
-            if status == .notDetermined {
-                AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: {(_ granted: Bool) -> Void in
+        var device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        if (device != nil) {
+            var status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+            if status == .NotDetermined {
+                AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: {(granted: Bool) -> Void in
                     if granted {
-                        DispatchQueue.main.async(execute: {() -> Void in
+                        dispatch_async(dispatch_get_main_queue(), {() -> Void in
                             var vc = QRCodeScanningVC()
-                            self.navigationController?.pushViewController(vc, animated: true)
+                            self.navigationController!.pushViewController(vc, animated: true)
                         })
-                        NSLog("当前线程 - - %@", Thread.current)
+                        NSLog("当前线程 - - %@", NSThread.currentThread())
                         // 用户第一次同意了访问相机权限
                         NSLog("用户第一次同意了访问相机权限")
                     } else {
@@ -197,69 +195,67 @@ class MainViewController: UITableViewController {
                         NSLog("用户第一次拒绝了访问相机权限")
                     }
                 })
-            } else if status == .authorized {
+            } else if status == .Authorized {
                 // 用户允许当前应用访问相机
                 var vc = QRCodeScanningVC()
-                navigationController?.pushViewController(vc, animated: true)
-            } else if status == .denied {
+                self.navigationController!.pushViewController(vc, animated: true)
+            }
+            else if status == .Denied {
                 // 用户拒绝当前应用访问相机
-                var alertC = UIAlertController(title: "⚠️ 警告", message: "请去-> [设置 - 隐私 - 相机 - ShadowBit] 打开访问开关", preferredStyle: (.alert))
-                var alertA = UIAlertAction(title: "确定", style: (.default), handler: {(_ action: UIAlertAction) -> Void in
+                var alertC = UIAlertController(title: "⚠️ 警告", message: "请去-> [设置 - 隐私 - 相机 - SGQRCodeExample] 打开访问开关", preferredStyle: (.Alert))
+                var alertA = UIAlertAction(title: "确定", style: .Default, handler: {(action: UIAlertAction) -> Void in
                 })
                 alertC.addAction(alertA)
-                present(alertC, animated: true, completion: { _ in })
-            } else if status == .restricted {
+                self.presentViewController(alertC, animated: true, completion: { _ in })
+            }
+            else if status == .Restricted {
                 print("因为系统原因, 无法访问相册")
             } else {
-                let alertC = UIAlertController(title: "温馨提示", message: "未检测到您的摄像头", preferredStyle: (.alert))
-                let alertA = UIAlertAction(title: "确定", style: (.default), handler: {(_ action: UIAlertAction) -> Void in
+                var alertC = UIAlertController(title: "温馨提示", message: "未检测到您的摄像头", preferredStyle: (.Alert))
+                var alertA = UIAlertAction(title: "确定", style: .Default, handler: {(action: UIAlertAction) -> Void in
                 })
                 alertC.addAction(alertA)
-                present(alertC, animated: true, completion: { _ in })
-            }
+                self.presentViewController(alertC, animated: true, completion: { _ in })            }
             
         }
     }
     
-    func clickMenu_2(sender: AnyObject){
-        print("点击成功")
-        
+    func clickMenu_2() {
         let manager = NETunnelProviderManager()
-        manager.loadFromPreferences { (error) -> Void in
+        manager.loadFromPreferencesWithCompletionHandler { (error) -> Void in
             let providerProtocol = NETunnelProviderProtocol()
             providerProtocol.providerBundleIdentifier = kTunnelProviderBundle
             providerProtocol.providerConfiguration = [String: AnyObject]()
             manager.protocolConfiguration = providerProtocol
             
-            let configurationController = ConfigurationViewController(style:.grouped)
+            let configurationController = ConfigurationViewController(style:.Grouped)
             configurationController.providerManager = manager
             self.navigationController?.pushViewController(configurationController, animated: true)
-            manager.saveToPreferences(completionHandler: { (error) -> Void in
-                print(error as Any)
+            manager.saveToPreferencesWithCompletionHandler({ (error) -> Void in
+                print(error)
             })
         }
-        
     }
-
+    
     func loadConfigurationFromSystem() {
-        NETunnelProviderManager.loadAllFromPreferences() { newManagers, error in
-            print(error as Any)
+        NETunnelProviderManager.loadAllFromPreferencesWithCompletionHandler() { newManagers, error in
+            print(error)
             guard let vpnManagers = newManagers else { return }
             self.vpnManagers.removeAll()
             for vpnManager in vpnManagers {
                 if let providerProtocol = vpnManager.protocolConfiguration as? NETunnelProviderProtocol {
                     if providerProtocol.providerBundleIdentifier == kTunnelProviderBundle {
-                        if vpnManager.isEnabled {
+                        if vpnManager.enabled {
                             self.currentVPNManager = vpnManager
                         }
                         self.vpnManagers.append(vpnManager)
                     }
                 }
             }
-            self.vpnStatusSwitch.isEnabled = vpnManagers.count > 0
+            self.vpnStatusSwitch.enabled = vpnManagers.count > 0
             self.tableView.reloadData()
             self.VPNStatusDidChange(nil)
         }
     }
-
+    
 }

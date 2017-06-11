@@ -75,23 +75,23 @@ static CGFloat const progressViewHeight = 2;
     }
 }
 
-/// KVO
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if ([keyPath isEqualToString:NSStringFromSelector(@selector(estimatedProgress))] && object == self.wkWebView) {
-        self.progressView.alpha = 1.0;
-        BOOL animated = self.wkWebView.estimatedProgress > self.progressView.progress;
-        [self.progressView setProgress:self.wkWebView.estimatedProgress animated:animated];
-        if(self.wkWebView.estimatedProgress >= 0.97) {
-            [UIView animateWithDuration:0.1 delay:0.3 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                self.progressView.alpha = 0.0;
-            } completion:^(BOOL finished) {
-                [self.progressView setProgress:0.0 animated:NO];
-            }];
-        }
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
+/// KVO-----------暂时不只如何解决,还用不到-------
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+//    if ([keyPath isEqualToString:NSStringFromSelector(@selector(estimatedProgress))] && object == self.wkWebView) {
+//        self.progressView.alpha = 1.0;
+//        BOOL animated = self.wkWebView.estimatedProgress > self.progressView.progress;
+//        [self.progressView setProgress:self.wkWebView.estimatedProgress animated:animated];
+//        if(self.wkWebView.estimatedProgress >= 0.97) {
+//            [UIView animateWithDuration:0.1 delay:0.3 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//                self.progressView.alpha = 0.0;
+//            } completion:^(BOOL finished) {
+//                [self.progressView setProgress:0.0 animated:NO];
+//            }];
+//        }
+//    } else {
+//        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+//    }
+//}
 
 #pragma mark - - - 加载的状态回调（WKNavigationDelegate）
 /// 页面开始加载时调用
