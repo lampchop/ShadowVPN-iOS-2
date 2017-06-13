@@ -32,10 +32,10 @@ class MainViewController: UITableViewController {
             //        vpnStatusLabel.textAlignment = .Right
             //        vpnStatusLabel.textColor = UIColor.grayColor()
         } else {
-            clickMenu_1()
+            scanQRCode()
             jump_URL = ""
         }
-        
+    
     }
     
     deinit {
@@ -182,44 +182,6 @@ class MainViewController: UITableViewController {
         KxMenu.showMenuInView(self.view, fromRect: a, menuItems: menuArray, withOptions: options)
     }
     func clickMenu_1() {
-        if jump_URL == "" {
-            scanQRCode()
-        } else {
-            let manager = NETunnelProviderManager()
-            manager.loadFromPreferencesWithCompletionHandler { (error) -> Void in
-                let providerProtocol = NETunnelProviderProtocol()
-                providerProtocol.providerBundleIdentifier = kTunnelProviderBundle
-                providerProtocol.providerConfiguration = [String: AnyObject]()
-                manager.protocolConfiguration = providerProtocol
-                
-                let configurationController = ScanConfiguration(style:.Grouped)
-                configurationController.providerManager = manager
-//                self.navigationController?.popToRootViewControllerAnimated(true)
-                manager.saveToPreferencesWithCompletionHandler({ (error) -> Void in
-                    print(error)
-                })
-            }
-            jump_URL = ""
-        }
-    }
-    
-    func clickMenu_2() {
-        let manager = NETunnelProviderManager()
-        manager.loadFromPreferencesWithCompletionHandler { (error) -> Void in
-            let providerProtocol = NETunnelProviderProtocol()
-            providerProtocol.providerBundleIdentifier = kTunnelProviderBundle
-            providerProtocol.providerConfiguration = [String: AnyObject]()
-            manager.protocolConfiguration = providerProtocol
-            
-            let configurationController = ConfigurationViewController(style:.Grouped)
-            configurationController.providerManager = manager
-            self.navigationController?.pushViewController(configurationController, animated: true)
-            manager.saveToPreferencesWithCompletionHandler({ (error) -> Void in
-                print(error)
-            })
-        }
-    }
-    func scanQRCode() {
         /** 扫描二维码方法 */
         // 1、 获取摄像设备
         var device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
@@ -264,6 +226,26 @@ class MainViewController: UITableViewController {
             
         }
 
+    }
+    
+    func clickMenu_2() {
+        let manager = NETunnelProviderManager()
+        manager.loadFromPreferencesWithCompletionHandler { (error) -> Void in
+            let providerProtocol = NETunnelProviderProtocol()
+            providerProtocol.providerBundleIdentifier = kTunnelProviderBundle
+            providerProtocol.providerConfiguration = [String: AnyObject]()
+            manager.protocolConfiguration = providerProtocol
+            
+            let configurationController = ConfigurationViewController(style:.Grouped)
+            configurationController.providerManager = manager
+            self.navigationController?.pushViewController(configurationController, animated: true)
+            manager.saveToPreferencesWithCompletionHandler({ (error) -> Void in
+                print(error)
+            })
+        }
+    }
+    func scanQRCode() {
+        //调用ScanConfiguration处理二维码,然后保存配置
     }
     func loadConfigurationFromSystem() {
         NETunnelProviderManager.loadAllFromPreferencesWithCompletionHandler() { newManagers, error in
