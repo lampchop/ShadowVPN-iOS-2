@@ -7,7 +7,7 @@
 //
 
 #import "QRCodeScanningVC.h"
-#import "ScanSuccessJumpVC.h"
+#import "ShadowBit-Swift.h"
 
 @interface QRCodeScanningVC ()
 
@@ -28,21 +28,39 @@
 - (void)SGQRCodeInformationFromeAibum:(NSNotification *)noti {
     NSString *string = noti.object;
     
-    ScanSuccessJumpVC *jumpVC = [[ScanSuccessJumpVC alloc] init];
+    MainViewController *jumpVC = [[MainViewController alloc] init];
     jumpVC.jump_URL = string;
-    [self.navigationController pushViewController:jumpVC animated:YES];
+    if ([jumpVC.jump_URL hasPrefix:@"shadowvpn://"]) {
+        [self.navigationController popToRootViewControllerAnimated:(BOOL)jumpVC];
+    } else {
+        [self alertControllerMessage: @"请扫描正确的二维码!"];
+    }    
 }
 //扫描
 - (void)SGQRCodeInformationFromeScanning:(NSNotification *)noti {
     NSString *string = noti.object;
     
-    ScanSuccessJumpVC *jumpVC = [[ScanSuccessJumpVC alloc] init];
+    MainViewController *jumpVC = [[MainViewController alloc] init];
     jumpVC.jump_URL = string;
-    [self.navigationController pushViewController:jumpVC animated:YES];}
+    if ([jumpVC.jump_URL hasPrefix:@"shadowvpn://"]) {
+        [self.navigationController popToRootViewControllerAnimated:(BOOL)jumpVC];
+    } else {
+        [self alertControllerMessage: @"请扫描正确的二维码!"];
+    }
+}
 
 - (void)dealloc {
     SGQRCodeLog(@"QRCodeScanningVC - dealloc");
     [SGQRCodeNotificationCenter removeObserver:self];
 }
+//弹出消息函数
+-(void)alertControllerMessage:(NSString *)message{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alert addAction:action];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 
 @end

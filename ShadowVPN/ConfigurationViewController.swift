@@ -15,15 +15,17 @@ class ConfigurationViewController: UITableViewController {
     var bindMap = [String: UITextField]()
     var configuration = [String: AnyObject]()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: self, action: "save")
         self.title = providerManager?.protocolConfiguration?.serverAddress
         let conf:NETunnelProviderProtocol = self.providerManager?.protocolConfiguration as! NETunnelProviderProtocol
+        
         // Dictionary in Swift is a struct. This is a copy
         self.configuration = conf.providerConfiguration!
     }
-    
+    //更新 self.configuration 这个map数据结构。 map主是key/value映射
     func updateConfiguration() {
         for (k, v) in self.bindMap {
             self.configuration[k] = v.text
@@ -44,7 +46,9 @@ class ConfigurationViewController: UITableViewController {
         }
         return true;
     }
-    
+    //  对“server” 这个字段
+    //    1. 若是域名转化为 ip地址
+    //    2. 若非域名也就是已经是ip地址了，直接返回原字串
     func domain_resolve(server_string: String) -> String {
         // server string is already ip address
         if true == is_ip_address(server_string) {
@@ -70,7 +74,7 @@ class ConfigurationViewController: UITableViewController {
         NSLog("get resolved ip address[%@]", resolve_ip_address)
         return resolve_ip_address
     }
-    
+    //  先更新下map这个数据结构 ，后面再把这些配置保存到providerManager里，并且跳转到主界面
     func save() {
         updateConfiguration()
         if let result = ConfigurationValidator.validate(self.configuration) {
@@ -95,7 +99,7 @@ class ConfigurationViewController: UITableViewController {
             self.navigationController?.popViewControllerAnimated(true)
         }
     }
-    
+    //  手动填写配置的表单里的数据，映射成 key/value的 map数据结构
     func bindData(textField: UITextField, property: String) {
         let val: AnyObject? = configuration[property]
         if let val = val {
@@ -212,7 +216,8 @@ class ConfigurationViewController: UITableViewController {
             return UITableViewCell()
         }
     }
-    
+    //    section 0:    如果是当前section的第9行，把该行弄成一个有子菜单的多选项
+    //    section 1:    添加删除配置的按钮，和这个按钮对应的操作、操作后要跳转的界面
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if (indexPath.section == 0) {

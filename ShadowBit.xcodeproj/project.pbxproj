@@ -21,7 +21,7 @@
 		0720071F1EE861B8007BF8FD /* SGQRCodeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007181EE861B8007BF8FD /* SGQRCodeTool.m */; };
 		072007241EE86217007BF8FD /* NirKxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007231EE86217007BF8FD /* NirKxMenu.m */; };
 		072007291EE86232007BF8FD /* QRCodeScanningVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007261EE86232007BF8FD /* QRCodeScanningVC.m */; };
-		0720072A1EE86232007BF8FD /* ScanSuccessJumpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007281EE86232007BF8FD /* ScanSuccessJumpVC.m */; };
+		07AEC7191EEEEC6C001AF9F2 /* ScanConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AEC7181EEEEC6C001AF9F2 /* ScanConfiguration.swift */; };
 		5EA8D9810A0C84460A50A3DA /* libPods-tunnel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC75A2A2AB75447D9D64CB9 /* libPods-tunnel.a */; };
 		620629BC1B789A320034179B /* ConfigurationValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620629BB1B789A320034179B /* ConfigurationValidator.swift */; };
 		620629BD1B789DE50034179B /* NSData+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D8D26A1B771B63009FA6FE /* NSData+Hex.swift */; };
@@ -97,8 +97,7 @@
 		072007231EE86217007BF8FD /* NirKxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NirKxMenu.m; sourceTree = "<group>"; };
 		072007251EE86232007BF8FD /* QRCodeScanningVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeScanningVC.h; sourceTree = "<group>"; };
 		072007261EE86232007BF8FD /* QRCodeScanningVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeScanningVC.m; sourceTree = "<group>"; };
-		072007271EE86232007BF8FD /* ScanSuccessJumpVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanSuccessJumpVC.h; sourceTree = "<group>"; };
-		072007281EE86232007BF8FD /* ScanSuccessJumpVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanSuccessJumpVC.m; sourceTree = "<group>"; };
+		07AEC7181EEEEC6C001AF9F2 /* ScanConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanConfiguration.swift; sourceTree = "<group>"; };
 		52E22CBCA9CEB75CB469204A /* Pods-tunnel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tunnel.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tunnel/Pods-tunnel.debug.xcconfig"; sourceTree = "<group>"; };
 		5FC75A2A2AB75447D9D64CB9 /* libPods-tunnel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tunnel.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		620629BB1B789A320034179B /* ConfigurationValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationValidator.swift; sourceTree = "<group>"; };
@@ -236,8 +235,6 @@
 			children = (
 				072007251EE86232007BF8FD /* QRCodeScanningVC.h */,
 				072007261EE86232007BF8FD /* QRCodeScanningVC.m */,
-				072007271EE86232007BF8FD /* ScanSuccessJumpVC.h */,
-				072007281EE86232007BF8FD /* ScanSuccessJumpVC.m */,
 			);
 			name = QRCode;
 			sourceTree = "<group>";
@@ -344,6 +341,7 @@
 				626520C31B73ABA10064F653 /* ConfigurationViewController.swift */,
 				62D8D2681B76286F009FA6FE /* ConfigurationTextCell.swift */,
 				620629BB1B789A320034179B /* ConfigurationValidator.swift */,
+				07AEC7181EEEEC6C001AF9F2 /* ScanConfiguration.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -562,11 +560,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0720071C1EE861B8007BF8FD /* SGWebView.m in Sources */,
-				0720072A1EE86232007BF8FD /* ScanSuccessJumpVC.m in Sources */,
 				0720071D1EE861B8007BF8FD /* SGQRCodeConst.m in Sources */,
 				620629BD1B789DE50034179B /* NSData+Hex.swift in Sources */,
 				0720071F1EE861B8007BF8FD /* SGQRCodeTool.m in Sources */,
 				62D8D2691B76286F009FA6FE /* ConfigurationTextCell.swift in Sources */,
+				07AEC7191EEEEC6C001AF9F2 /* ScanConfiguration.swift in Sources */,
 				072007241EE86217007BF8FD /* NirKxMenu.m in Sources */,
 				0720071A1EE861B8007BF8FD /* SGQRCodeScanningVC.m in Sources */,
 				623DE1E61B78AAB200B1440F /* SimpleTableViewController.m in Sources */,

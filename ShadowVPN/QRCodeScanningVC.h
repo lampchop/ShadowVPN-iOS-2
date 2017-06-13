@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SGQRCode.h"
 
+
 @interface QRCodeScanningVC : SGQRCodeScanningVC
 
 @end

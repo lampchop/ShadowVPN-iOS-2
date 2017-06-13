@@ -152,9 +152,8 @@
     for (int index = 0; index < [features count]; index ++) {
         CIQRCodeFeature *feature = [features objectAtIndex:index];
         NSString *scannedResult = feature.messageString;
-        
         [SGQRCodeNotificationCenter postNotificationName:SGQRCodeInformationFromeAibum object:scannedResult];
-
+        
     }
 }
 
@@ -242,7 +241,7 @@ void soundCompleteCallback(SystemSoundID soundID, void *clientData){
     //SGQRCodeLog(@"播放完成...");
 }
 
-//由于要写两次，所以就封装了一个方法
+//弹出消息函数
 -(void)alertControllerMessage:(NSString *)message{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -250,7 +249,6 @@ void soundCompleteCallback(SystemSoundID soundID, void *clientData){
     [alert addAction:action];
     [self presentViewController:alert animated:YES completion:nil];
 }
-
 
 @end
 
