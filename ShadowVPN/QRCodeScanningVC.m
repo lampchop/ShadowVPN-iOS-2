@@ -28,22 +28,23 @@
 - (void)SGQRCodeInformationFromeAibum:(NSNotification *)noti {
     NSString *string = noti.object;
     
-    MainViewController *jumpVC = [[MainViewController alloc] init];
+    ScanConfiguration *jumpVC = [[ScanConfiguration alloc] init];
     jumpVC.jump_URL = string;
     if ([jumpVC.jump_URL hasPrefix:@"shadowvpn://"]) {
-        [self.navigationController popToRootViewControllerAnimated:(BOOL)jumpVC];
+        [self.navigationController pushViewController:jumpVC animated:false];
     } else {
         [self alertControllerMessage: @"请扫描正确的二维码!"];
-    }    
+    }
+    
 }
 //扫描
 - (void)SGQRCodeInformationFromeScanning:(NSNotification *)noti {
     NSString *string = noti.object;
     
-    MainViewController *jumpVC = [[MainViewController alloc] init];
+    ScanConfiguration *jumpVC = [[ScanConfiguration alloc] init];
     jumpVC.jump_URL = string;
     if ([jumpVC.jump_URL hasPrefix:@"shadowvpn://"]) {
-        [self.navigationController popToRootViewControllerAnimated:(BOOL)jumpVC];
+        [self.navigationController pushViewController:jumpVC animated:false];
     } else {
         [self alertControllerMessage: @"请扫描正确的二维码!"];
     }
@@ -64,3 +65,5 @@
 
 
 @end
+
+

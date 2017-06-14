@@ -13,31 +13,24 @@ let kTunnelProviderBundle = "com.fengqingyang.sv.tunnel"
 
 class MainViewController: UITableViewController {
     
-    var jump_URL: String = ""
+
     var vpnManagers = [NETunnelProviderManager]()
     var currentVPNManager: NETunnelProviderManager?
     var vpnStatusSwitch = UISwitch()
     var vpnStatusLabel = UILabel()
-
+    
     override func viewDidLoad() {
+        super.viewDidLoad()
+        // self.title = "ShadowVPN"
+        self.title = "ShadowBit"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "addConfiguration")
         
-        if jump_URL == "" {
-            super.viewDidLoad()
-            // self.title = "ShadowVPN"
-            self.title = "ShadowBit"
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "addConfiguration")
-            
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("VPNStatusDidChange:"), name: NEVPNStatusDidChangeNotification, object: nil)
-            vpnStatusSwitch.addTarget(self, action: "vpnStatusSwitchValueDidChange:", forControlEvents: .ValueChanged)
-            //        vpnStatusLabel.textAlignment = .Right
-            //        vpnStatusLabel.textColor = UIColor.grayColor()
-        } else {
-            scanQRCode()
-            jump_URL = ""
-        }
-    
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("VPNStatusDidChange:"), name: NEVPNStatusDidChangeNotification, object: nil)
+        vpnStatusSwitch.addTarget(self, action: "vpnStatusSwitchValueDidChange:", forControlEvents: .ValueChanged)
+        //        vpnStatusLabel.textAlignment = .Right
+        //        vpnStatusLabel.textColor = UIColor.grayColor()
     }
-    
+
     deinit {
        NSNotificationCenter.defaultCenter().removeObserver(self, name: NEVPNStatusDidChangeNotification, object: nil)
     }
@@ -191,7 +184,7 @@ class MainViewController: UITableViewController {
                 AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: {(granted: Bool) -> Void in
                     if granted {
                         dispatch_async(dispatch_get_main_queue(), {() -> Void in
-                            var vc = QRCodeScanningVC()
+                            let vc = QRCodeScanningVC()
                             self.navigationController!.pushViewController(vc, animated: true)
                         })
                         NSLog("当前线程 - - %@", NSThread.currentThread())
@@ -204,13 +197,13 @@ class MainViewController: UITableViewController {
                 })
             } else if status == .Authorized {
                 // 用户允许当前应用访问相机
-                var vc = QRCodeScanningVC()
+                let vc = QRCodeScanningVC()
                 self.navigationController!.pushViewController(vc, animated: true)
             }
             else if status == .Denied {
                 // 用户拒绝当前应用访问相机
-                var alertC = UIAlertController(title: "⚠️ 警告", message: "请去-> [设置 - 隐私 - 相机 - SGQRCodeExample] 打开访问开关", preferredStyle: (.Alert))
-                var alertA = UIAlertAction(title: "确定", style: .Default, handler: {(action: UIAlertAction) -> Void in
+                let alertC = UIAlertController(title: "⚠️ 警告", message: "请去-> [设置 - 隐私 - 相机 - SGQRCodeExample] 打开访问开关", preferredStyle: (.Alert))
+                let alertA = UIAlertAction(title: "确定", style: .Default, handler: {(action: UIAlertAction) -> Void in
                 })
                 alertC.addAction(alertA)
                 self.presentViewController(alertC, animated: true, completion: { _ in })
@@ -218,8 +211,8 @@ class MainViewController: UITableViewController {
             else if status == .Restricted {
                 print("因为系统原因, 无法访问相册")
             } else {
-                var alertC = UIAlertController(title: "温馨提示", message: "未检测到您的摄像头", preferredStyle: (.Alert))
-                var alertA = UIAlertAction(title: "确定", style: .Default, handler: {(action: UIAlertAction) -> Void in
+                let alertC = UIAlertController(title: "温馨提示", message: "未检测到您的摄像头", preferredStyle: (.Alert))
+                let alertA = UIAlertAction(title: "确定", style: .Default, handler: {(action: UIAlertAction) -> Void in
                 })
                 alertC.addAction(alertA)
                 self.presentViewController(alertC, animated: true, completion: { _ in })            }
@@ -244,9 +237,7 @@ class MainViewController: UITableViewController {
             })
         }
     }
-    func scanQRCode() {
-        //调用ScanConfiguration处理二维码,然后保存配置
-    }
+
     func loadConfigurationFromSystem() {
         NETunnelProviderManager.loadAllFromPreferencesWithCompletionHandler() { newManagers, error in
             print(error)
