@@ -10,7 +10,7 @@ Features
 - ChinaDNS
 
 Requirements
-- Xcode version 8.2+
+- Xcode version 7.2
 - Swift 2.3
 
 Work in progress. Checkout the [development plan](https://github.com/clowwindy/ShadowVPNiOS/issues).
