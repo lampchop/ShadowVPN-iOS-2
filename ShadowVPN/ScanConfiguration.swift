@@ -9,6 +9,7 @@
 import UIKit
 import NetworkExtension
 
+
 class ScanConfiguration: UITableViewController {
     var jump_URL: String = ""
     var providerManager: NETunnelProviderManager?
@@ -17,6 +18,7 @@ class ScanConfiguration: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*
         jump_URL = String(jump_URL.characters.dropFirst(12))
         print(jump_URL)
         // 将base64字符串转换成NSData
@@ -61,7 +63,40 @@ class ScanConfiguration: UITableViewController {
         // Dictionary in Swift is a struct. This is a copy
         configuration = conf.providerConfiguration!
         navigationController?.popToRootViewControllerAnimated(true)
+        */
 
+        let manager = NETunnelProviderManager()
+        manager.loadFromPreferencesWithCompletionHandler { (error) -> Void in
+            let providerProtocol = NETunnelProviderProtocol()
+            providerProtocol.providerBundleIdentifier = kTunnelProviderBundle
+            providerProtocol.providerConfiguration = [String: AnyObject]()
+            manager.protocolConfiguration = providerProtocol
+            
+            // save config action demo
+            // TODO transfrom the above jump_URL to the following configuration
+            var configuration = [String: AnyObject]()
+            configuration["server"] = "107.191.52.20"
+            configuration["description"] = "Conf from QRcode"
+            configuration["port"] = "1123"
+            configuration["password"] = "666shadowvpn"
+            configuration["usertoken"] = ""
+            configuration["ip"] = "10.7.0.2"
+            configuration["subnet"] = "255.255.255.0"
+            configuration["dns"] = "114.114.114.114,223.5.5.5,8.8.8.8,8.8.4.4,208.67.222.222"
+            configuration["mtu"] = "1432"
+            configuration["route"] = "chnroutes"
+            
+            (manager.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration = configuration
+            manager.protocolConfiguration?.serverAddress =  configuration["server"] as? String
+            manager.localizedDescription = configuration["server"] as? String
+            
+            manager.saveToPreferencesWithCompletionHandler({ (error) -> Void in
+                print(error)
+                self.navigationController?.popToRootViewControllerAnimated(true)
+            })
+            
+            
+        }
     }
     
     //json字符串转字典
