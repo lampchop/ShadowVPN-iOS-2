@@ -12,39 +12,25 @@ import NetworkExtension
 class ScanConfiguration: UITableViewController {
     var jump_URL: String = ""
     var providerManager: NETunnelProviderManager?
-    var bindMap = [String: UITextField]()
+    var bindMap = [String: AnyObject]()
     var configuration = [String: AnyObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         jump_URL = String(jump_URL.characters.dropFirst(12))
         print(jump_URL)
-        
         // 将base64字符串转换成NSData
         let base64EncodedData = NSData(base64EncodedString:jump_URL,options:NSDataBase64DecodingOptions(rawValue: 0))
         // 对NSData数据进行UTF8解码
         let stringWithDecode = NSString(data: base64EncodedData!, encoding: NSUTF8StringEncoding)
-
+        print(stringWithDecode)
         
+
         ///-------拿到的stringWithDecode处理添加配置就可以了
         
-        self.navigationController?.popToRootViewControllerAnimated(true)
-
-    }
-
-    //  手动填写配置的表单里的数据，映射成 key/value的 map数据结构
-    func bindData(textField: UITextField, property: String) {
-        let val: AnyObject? = configuration[property]
-        if let val = val {
-            textField.text = String(val)
-        }
-        bindMap[property] = textField
-    }
-
-    //  先更新下map这个数据结构 ，后面再把这些配置保存到providerManager里，并且跳转到主界面
-    func save() {
-        updateConfiguration()
-        if let result = ConfigurationValidator.validate(self.configuration) {
+        bindMap = convertStringToDictionary(stringWithDecode!)!
+        print(bindMap)
+        if let result = ScanConfiguration.validate(self.bindMap) {
             let alertController = UIAlertController(title: "Error", message: result, preferredStyle: .Alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: { (action) -> Void in
             }))
@@ -52,27 +38,44 @@ class ScanConfiguration: UITableViewController {
             })
             return
         }
-        (self.providerManager?.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration = self.configuration
+        //-----------------
+        (providerManager?.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration = bindMap
+        //-----------------有错?
+        
         // self.providerManager?.protocolConfiguration?.serverAddress = self.configuration["server"] as? String
         // get server_ip from resolve result, as config item may be an ip address or a domain
         var server_ip: String = ""
-        server_ip = self.domain_resolve((self.configuration["server"] as? String)!)
-        self.providerManager?.protocolConfiguration?.serverAddress = server_ip
+        server_ip = domain_resolve((bindMap["server"] as? String)!)
+        providerManager?.protocolConfiguration?.serverAddress = server_ip
         NSLog("set vpn server ip address [%@]", server_ip)
         
-        self.providerManager?.localizedDescription = self.configuration["server"] as? String
+        providerManager?.localizedDescription = bindMap["server"] as? String
         
-        self.providerManager?.saveToPreferencesWithCompletionHandler { (error) -> Void in
-            self.navigationController?.popViewControllerAnimated(true)
+        providerManager?.saveToPreferencesWithCompletionHandler { (error) -> Void in
         }
+    
+
+        title = providerManager?.protocolConfiguration?.serverAddress
+        let conf:NETunnelProviderProtocol = providerManager?.protocolConfiguration as! NETunnelProviderProtocol
+        
+        // Dictionary in Swift is a struct. This is a copy
+        configuration = conf.providerConfiguration!
+        navigationController?.popToRootViewControllerAnimated(true)
+
     }
-    //更新 self.configuration 这个map数据结构。 map主是key/value映射
-    func updateConfiguration() {
-        for (k, v) in self.bindMap {
-            self.configuration[k] = v.text
+    
+    //json字符串转字典
+    func convertStringToDictionary(text: NSString) -> [String:AnyObject]? {
+        if let data = text.dataUsingEncoding(NSUTF8StringEncoding)  {
+            do {
+                return try NSJSONSerialization.JSONObjectWithData(data, options: [NSJSONReadingOptions.init(rawValue: 0)]) as? [String:AnyObject]
+            } catch let error as NSError {
+                print(error)
+            }
         }
-        //        self.configuration["route"] = "chnroutes"
+        return nil
     }
+
     //  对“server” 这个字段
     //    1. 若是域名转化为 ip地址
     //    2. 若非域名也就是已经是ip地址了，直接返回原字串
@@ -115,6 +118,107 @@ class ScanConfiguration: UITableViewController {
             }
         }
         return true;
+    }
+    
+    
+    // return nil if there's no error
+    class func validateIP(ip: String) -> String? {
+        let parts = ip.componentsSeparatedByString(".")
+        if parts.count != 4 {
+            return "Invalid IP: " + ip
+        }
+        for part in parts {
+            let n = Int(part)
+            if n == nil || n < 0 || n > 255 {
+                return "Invalid IP: " + ip
+            }
+        }
+        return nil
+    }
+    
+    // return nil if there's no error
+    class func validate(configuration: [String: AnyObject]) -> String? {
+        // 1. server must be not empty
+        if configuration["server"] == nil || configuration["server"]?.length == 0 {
+            return "Server must not be empty"
+        }
+        // 2. port must be int 1, 65535
+        if configuration["port"] == nil || configuration["port"]?.length == 0 {
+            return "Port must not be empty"
+        }
+        let port = Int(configuration["port"] as! NSNumber)
+        if port < 1 || port > 65535 {
+            return "Port is invalid"
+        }
+        // 3. password must be not empty
+        if configuration["password"] == nil || configuration["password"]?.length == 0 {
+            return "Password must not be empty"
+        }
+//        // 4. usertoken must be empty or hex of 8 bytes
+//        if configuration["usertoken"] != nil {
+//            if let usertoken = configuration["usertoken"] as? String {
+//                if NSData.fromHexString(usertoken).length != 8 && NSData.fromHexString(usertoken).length != 0 {
+//                    return "Usertoken must be HEX of 8 bytes (example: 7e335d67f1dc2c01)"
+//                }
+//            }
+//        }
+        // 5. ip must be valid IP
+        if configuration["ip"] == nil || configuration["ip"]?.length == 0 {
+            return "IP must not be empty"
+        }
+        if let ip = configuration["ip"] as? String {
+            let r = validateIP(ip)
+            if r != nil {
+                return r
+            }
+        }
+        // 6. subnet must be valid subnet
+        if configuration["subnet"] == nil || configuration["subnet"]?.length == 0 {
+            return "Subnet must not be empty"
+        }
+        if let subnet = configuration["subnet"] as? String {
+            let r = validateIP(subnet)
+            if r != nil {
+                return r
+            }
+        }
+        // 7. dns must be comma separated ip addresses
+        if configuration["dns"] == nil || configuration["dns"]?.length == 0 {
+            return "DNS must not be empty"
+        }
+        if let dns = configuration["dns"] as? String {
+            let ips = dns.componentsSeparatedByString(",")
+            if ips.count == 0 {
+                return "DNS must not be empty"
+            }
+            for ip in ips {
+                let r = validateIP(ip)
+                if r != nil {
+                    return r
+                }
+            }
+        }
+        // 8. mtu must be int
+        if configuration["mtu"] == nil || configuration["mtu"]?.length == 0 {
+            return "MTU must not be empty"
+        }
+        let mtu = Int(configuration["mtu"] as! NSNumber)
+        if mtu < 100 || mtu > 9000 {
+            return "MTU is invalid"
+        }
+        
+        // 9. ip must be valid IP
+        if configuration["remote_tun_ip"] == nil || configuration["remote_tun_ip"]?.length == 0 {
+            return "IP must not be empty"
+        }
+        if let ip = configuration["remote_tun_ip"] as? String {
+            let r = validateIP(ip)
+            if r != nil {
+                return r
+            }
+        }
+        // 10. routes must be empty or chnroutes
+        return nil
     }
 
 }

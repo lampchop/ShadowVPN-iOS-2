@@ -25,7 +25,7 @@ class ConfigurationViewController: UITableViewController {
         // Dictionary in Swift is a struct. This is a copy
         self.configuration = conf.providerConfiguration!
     }
-    //更新 self.configuration 这个map数据结构。 map主是key/value映射
+    //更新 self.configuration 这个map数据结构。 map 主是key/value映射
     func updateConfiguration() {
         for (k, v) in self.bindMap {
             self.configuration[k] = v.text
@@ -86,6 +86,7 @@ class ConfigurationViewController: UITableViewController {
             return
         }
         (self.providerManager?.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration = self.configuration
+        print(configuration)
         // self.providerManager?.protocolConfiguration?.serverAddress = self.configuration["server"] as? String
         // get server_ip from resolve result, as config item may be an ip address or a domain
         var server_ip: String = ""
@@ -95,6 +96,7 @@ class ConfigurationViewController: UITableViewController {
         
         self.providerManager?.localizedDescription = self.configuration["server"] as? String
         
+        ///将manager保存至系统中
         self.providerManager?.saveToPreferencesWithCompletionHandler { (error) -> Void in
             self.navigationController?.popViewControllerAnimated(true)
         }

@@ -152,6 +152,8 @@ class MainViewController: UITableViewController {
         configurationController.providerManager = self.vpnManagers[indexPath.row]
         self.navigationController?.pushViewController(configurationController, animated: true)
     }
+    
+    //添加配置
     func addConfiguration() {
         let menuArray = [KxMenuItem.init("Scan QR img",image: UIImage(named: "Scan QR img"),target: self,action: "clickMenu_1"),KxMenuItem.init("Manually Add",image: UIImage(named: "Manually Add"),target: self,action: "clickMenu_2")]
         /*设置菜单字体*/
@@ -174,12 +176,13 @@ class MainViewController: UITableViewController {
         let a = CGRect(x: self.view.frame.width-27, y: 70, width: 0, height: 0)
         KxMenu.showMenuInView(self.view, fromRect: a, menuItems: menuArray, withOptions: options)
     }
+    
+    /** 扫描二维码方法 */
     func clickMenu_1() {
-        /** 扫描二维码方法 */
         // 1、 获取摄像设备
-        var device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         if (device != nil) {
-            var status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+            let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
             if status == .NotDetermined {
                 AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: {(granted: Bool) -> Void in
                     if granted {
@@ -221,6 +224,7 @@ class MainViewController: UITableViewController {
 
     }
     
+    ///手动添加
     func clickMenu_2() {
         let manager = NETunnelProviderManager()
         manager.loadFromPreferencesWithCompletionHandler { (error) -> Void in
