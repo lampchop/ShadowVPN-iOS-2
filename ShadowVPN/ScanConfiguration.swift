@@ -25,6 +25,22 @@ class ScanConfiguration: UITableViewController {
         // 对NSData数据进行UTF8解码
         let stringWithDecode = NSString(data: base64EncodedData!, encoding: NSUTF8StringEncoding)
 
+        print(stringWithDecode)
+        var conf_dictionary:NSDictionary?
+        if let data = stringWithDecode!.dataUsingEncoding(NSUTF8StringEncoding) {
+            
+            do {
+                conf_dictionary =  try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String:AnyObject]
+                
+                if let myDictionary = conf_dictionary
+                {
+                    print(" First name is: \(myDictionary["port"]!)")
+                }
+            } catch let error as NSError {
+                print(error)
+            }
+        }
+
 
         let manager = NETunnelProviderManager()
         manager.loadFromPreferencesWithCompletionHandler { (error) -> Void in
@@ -34,26 +50,32 @@ class ScanConfiguration: UITableViewController {
             manager.protocolConfiguration = providerProtocol
             
             // save config action demo
-            // TODO transfrom the above jump_URL to the following configuration
-            var configuration = self.convertStringToDictionary(stringWithDecode!)
-//            configuration!["server"] = "107.191.52.20"
+            // TODO remove
+            // var configuration = self.convertStringToDictionary(stringWithDecode!)
+            var configuration = [String: AnyObject]()
+            
+            configuration["description"] = "Conf from QRcode"
+            configuration["usertoken"] = ""
+
             
             // TODO: configuration maybe nil !!!
             // if configuration is nil, pop error messsage and return to root view
-           
-            configuration!["description"] = "Conf from QRcode"
-//            configuration!["port"] = "1123"
-//            configuration!["password"] = "666shadowvpn"
-//            configuration!["usertoken"] = ""
-//            configuration!["ip"] = "10.7.0.2"
-//            configuration!["subnet"] = "255.255.255.0"
-//            configuration!["dns"] = "114.114.114.114,223.5.5.5,8.8.8.8,8.8.4.4,208.67.222.222"
-//            configuration!["mtu"] = "1432"
-//            configuration!["route"] = "chnroutes"
+            
+            configuration["password"] =  String(conf_dictionary!["password"]! as AnyObject)
+            // TODO this will fail if QRcode does not provide "usertoken"
+            //configuration["usertoken"] =  String(conf_dictionary!["usertoken"]! as AnyObject)
+            configuration["port"] = String(conf_dictionary!["port"]! as AnyObject)
+            configuration["ip"] = String(conf_dictionary!["ip"]! as AnyObject)
+            configuration["subnet"] = String(conf_dictionary!["subnet"]! as AnyObject)
+            configuration["dns"] = String(conf_dictionary!["dns"]! as AnyObject)
+            configuration["mtu"] = String(conf_dictionary!["mtu"]! as AnyObject)
+            configuration["server"] = String(conf_dictionary!["server"]! as AnyObject)
+
+            configuration["route"] = "chnroutes"
             
             (manager.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration = configuration
-            manager.protocolConfiguration?.serverAddress =  configuration!["server"] as? String
-            manager.localizedDescription = configuration!["server"] as? String
+            manager.protocolConfiguration?.serverAddress =  configuration["server"] as? String
+            manager.localizedDescription = configuration["server"] as? String
             
             manager.saveToPreferencesWithCompletionHandler({ (error) -> Void in
                 print(error)
