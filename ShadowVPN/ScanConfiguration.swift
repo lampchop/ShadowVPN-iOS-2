@@ -12,58 +12,19 @@ import NetworkExtension
 
 class ScanConfiguration: UITableViewController {
     var jump_URL: String = ""
-    var providerManager: NETunnelProviderManager?
-    var bindMap = [String: AnyObject]()
-    var configuration = [String: AnyObject]()
+//    var providerManager: NETunnelProviderManager?
+//    var bindMap = [String: AnyObject]()
+//    var configuration = [String: AnyObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
+        
         jump_URL = String(jump_URL.characters.dropFirst(12))
-        print(jump_URL)
         // 将base64字符串转换成NSData
         let base64EncodedData = NSData(base64EncodedString:jump_URL,options:NSDataBase64DecodingOptions(rawValue: 0))
         // 对NSData数据进行UTF8解码
         let stringWithDecode = NSString(data: base64EncodedData!, encoding: NSUTF8StringEncoding)
-        print(stringWithDecode)
-        
 
-        ///-------拿到的stringWithDecode处理添加配置就可以了
-        
-        bindMap = convertStringToDictionary(stringWithDecode!)!
-        print(bindMap)
-        if let result = ScanConfiguration.validate(self.bindMap) {
-            let alertController = UIAlertController(title: "Error", message: result, preferredStyle: .Alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: { (action) -> Void in
-            }))
-            self.presentViewController(alertController, animated: true, completion: { () -> Void in
-            })
-            return
-        }
-        //-----------------
-        (providerManager?.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration = bindMap
-        //-----------------有错?
-        
-        // self.providerManager?.protocolConfiguration?.serverAddress = self.configuration["server"] as? String
-        // get server_ip from resolve result, as config item may be an ip address or a domain
-        var server_ip: String = ""
-        server_ip = domain_resolve((bindMap["server"] as? String)!)
-        providerManager?.protocolConfiguration?.serverAddress = server_ip
-        NSLog("set vpn server ip address [%@]", server_ip)
-        
-        providerManager?.localizedDescription = bindMap["server"] as? String
-        
-        providerManager?.saveToPreferencesWithCompletionHandler { (error) -> Void in
-        }
-    
-
-        title = providerManager?.protocolConfiguration?.serverAddress
-        let conf:NETunnelProviderProtocol = providerManager?.protocolConfiguration as! NETunnelProviderProtocol
-        
-        // Dictionary in Swift is a struct. This is a copy
-        configuration = conf.providerConfiguration!
-        navigationController?.popToRootViewControllerAnimated(true)
-        */
 
         let manager = NETunnelProviderManager()
         manager.loadFromPreferencesWithCompletionHandler { (error) -> Void in
@@ -74,21 +35,21 @@ class ScanConfiguration: UITableViewController {
             
             // save config action demo
             // TODO transfrom the above jump_URL to the following configuration
-            var configuration = [String: AnyObject]()
-            configuration["server"] = "107.191.52.20"
-            configuration["description"] = "Conf from QRcode"
-            configuration["port"] = "1123"
-            configuration["password"] = "666shadowvpn"
-            configuration["usertoken"] = ""
-            configuration["ip"] = "10.7.0.2"
-            configuration["subnet"] = "255.255.255.0"
-            configuration["dns"] = "114.114.114.114,223.5.5.5,8.8.8.8,8.8.4.4,208.67.222.222"
-            configuration["mtu"] = "1432"
-            configuration["route"] = "chnroutes"
+            var configuration = self.convertStringToDictionary(stringWithDecode!)
+//            configuration!["server"] = "107.191.52.20"
+            configuration!["description"] = "Conf from QRcode"
+//            configuration!["port"] = "1123"
+//            configuration!["password"] = "666shadowvpn"
+//            configuration!["usertoken"] = ""
+//            configuration!["ip"] = "10.7.0.2"
+//            configuration!["subnet"] = "255.255.255.0"
+//            configuration!["dns"] = "114.114.114.114,223.5.5.5,8.8.8.8,8.8.4.4,208.67.222.222"
+//            configuration!["mtu"] = "1432"
+//            configuration!["route"] = "chnroutes"
             
             (manager.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration = configuration
-            manager.protocolConfiguration?.serverAddress =  configuration["server"] as? String
-            manager.localizedDescription = configuration["server"] as? String
+            manager.protocolConfiguration?.serverAddress =  configuration!["server"] as? String
+            manager.localizedDescription = configuration!["server"] as? String
             
             manager.saveToPreferencesWithCompletionHandler({ (error) -> Void in
                 print(error)
@@ -189,14 +150,14 @@ class ScanConfiguration: UITableViewController {
         if configuration["password"] == nil || configuration["password"]?.length == 0 {
             return "Password must not be empty"
         }
-//        // 4. usertoken must be empty or hex of 8 bytes
-//        if configuration["usertoken"] != nil {
-//            if let usertoken = configuration["usertoken"] as? String {
-//                if NSData.fromHexString(usertoken).length != 8 && NSData.fromHexString(usertoken).length != 0 {
-//                    return "Usertoken must be HEX of 8 bytes (example: 7e335d67f1dc2c01)"
-//                }
-//            }
-//        }
+        // 4. usertoken must be empty or hex of 8 bytes
+        if configuration["usertoken"] != nil {
+            if let usertoken = configuration["usertoken"] as? String {
+                if NSData.fromHexString(usertoken).length != 8 && NSData.fromHexString(usertoken).length != 0 {
+                    return "Usertoken must be HEX of 8 bytes (example: 7e335d67f1dc2c01)"
+                }
+            }
+        }
         // 5. ip must be valid IP
         if configuration["ip"] == nil || configuration["ip"]?.length == 0 {
             return "IP must not be empty"
