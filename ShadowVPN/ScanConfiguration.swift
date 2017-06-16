@@ -37,6 +37,10 @@ class ScanConfiguration: UITableViewController {
             // TODO transfrom the above jump_URL to the following configuration
             var configuration = self.convertStringToDictionary(stringWithDecode!)
 //            configuration!["server"] = "107.191.52.20"
+            
+            // TODO: configuration maybe nil !!!
+            // if configuration is nil, pop error messsage and return to root view
+           
             configuration!["description"] = "Conf from QRcode"
 //            configuration!["port"] = "1123"
 //            configuration!["password"] = "666shadowvpn"
