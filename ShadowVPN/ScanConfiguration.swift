@@ -40,6 +40,7 @@ class ScanConfiguration: UITableViewController {
                 print(error)
             }
         }
+        self.errorConfig()
 
 
         let manager = NETunnelProviderManager()
@@ -88,8 +89,13 @@ class ScanConfiguration: UITableViewController {
     ///配置不成功弹出信息
     func errorConfig() {
         navigationController?.popToRootViewControllerAnimated(true)
-        let alert = UIAlertView(title: "ERROR", message: "Configuration error", delegate: nil, cancelButtonTitle: "cancel")
-        alert.show()
+        
+        let result:String = "test"
+        let alertController = UIAlertController(title: "Error", message: result, preferredStyle: .Alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: { (action) -> Void in
+        }))
+        self.presentViewController(alertController, animated: true, completion: { () -> Void in
+        })
     }
 
     //  对“server” 这个字段
