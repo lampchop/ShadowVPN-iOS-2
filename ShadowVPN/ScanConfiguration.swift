@@ -85,17 +85,11 @@ class ScanConfiguration: UITableViewController {
             
         }
     }
-    
-    //json字符串转字典
-    func convertStringToDictionary(text: NSString) -> [String:AnyObject]? {
-        if let data = text.dataUsingEncoding(NSUTF8StringEncoding)  {
-            do {
-                return try NSJSONSerialization.JSONObjectWithData(data, options: [NSJSONReadingOptions.init(rawValue: 0)]) as? [String:AnyObject]
-            } catch let error as NSError {
-                print(error)
-            }
-        }
-        return nil
+    ///配置不成功弹出信息
+    func errorConfig() {
+        navigationController?.popToRootViewControllerAnimated(true)
+        let alert = UIAlertView(title: "ERROR", message: "Configuration error", delegate: nil, cancelButtonTitle: "cancel")
+        alert.show()
     }
 
     //  对“server” 这个字段

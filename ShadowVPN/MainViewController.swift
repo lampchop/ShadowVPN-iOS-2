@@ -244,7 +244,6 @@ class MainViewController: UITableViewController {
     }
 
     func clickMenu_3() {
-        print("成功啦")
         let safari = SFSafariViewController(URL: NSURL(string: "http://freesv.ishadow.pub")!)
         self.presentViewController(safari, animated: true, completion: nil)
     }
