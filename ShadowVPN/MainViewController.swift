@@ -8,6 +8,7 @@
 
 import UIKit
 import NetworkExtension
+import SafariServices
 
 let kTunnelProviderBundle = "com.fengqingyang.sv.tunnel"
 
@@ -155,7 +156,7 @@ class MainViewController: UITableViewController {
     
     //添加配置
     func addConfiguration() {
-        let menuArray = [KxMenuItem.init("Scan QR img",image: UIImage(named: "Scan QR img"),target: self,action: "clickMenu_1"),KxMenuItem.init("Manually Add",image: UIImage(named: "Manually Add"),target: self,action: "clickMenu_2")]
+        let menuArray = [KxMenuItem.init("Scan QR img",image: UIImage(named: "Scan QR img"),target: self,action: "clickMenu_1"),KxMenuItem.init("Manually Add",image: UIImage(named: "Manually Add"),target: self,action: "clickMenu_2"),KxMenuItem.init("Official Site",image: UIImage(named: "Official Site"),target: self,action: "clickMenu_3")]
         /*设置菜单字体*/
         KxMenu.setTitleFont(UIFont(name: "HelveticaNeue", size: 15))
         
@@ -242,6 +243,11 @@ class MainViewController: UITableViewController {
         }
     }
 
+    func clickMenu_3() {
+        print("成功啦")
+        let safari = SFSafariViewController(URL: NSURL(string: "http://freesv.ishadow.pub")!)
+        self.presentViewController(safari, animated: true, completion: nil)
+    }
     func loadConfigurationFromSystem() {
         NETunnelProviderManager.loadAllFromPreferencesWithCompletionHandler() { newManagers, error in
             print(error)
