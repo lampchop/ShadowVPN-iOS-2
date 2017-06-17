@@ -40,7 +40,6 @@ class ScanConfiguration: UITableViewController {
                 print(error)
             }
         }
-        self.errorConfig()
 
 
         let manager = NETunnelProviderManager()
