@@ -172,7 +172,7 @@
     
     // 设置扫描范围(每一个取值0～1，以屏幕右上角为坐标原点)
     // 注：微信二维码的扫描范围是整个屏幕，这里并没有做处理（可不用设置）
-    output.rectOfInterest = CGRectMake(0.05, 0.2, 0.7, 0.6);
+//    output.rectOfInterest = CGRectMake(0.05, 0.2, 0.7, 0.6);
     
     // 5、初始化链接对象（会话对象）
     self.session = [[AVCaptureSession alloc] init];
