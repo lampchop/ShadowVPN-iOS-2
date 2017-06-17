@@ -15,7 +15,7 @@ Requirements
 
 Work in progress. Checkout the [development plan](https://github.com/clowwindy/ShadowVPNiOS/issues).
 
-Please contact us if you're interested in [testing the alpha version](https://github.com/clowwindy/ShadowVPN-iOS/wiki/How-To-Test-Beta-Version).
+Please contact us if you're interested in [testing the alpha version](https://itunes.apple.com/us/app/shadowbit/id1236116150?mt=8).
 
 License: GPLv3
 
