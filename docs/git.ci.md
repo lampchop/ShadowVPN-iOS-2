@@ -1,3 +1,3 @@
 git commit help
-- git checkout master
+- git checkout remotes/origin/master
 - git push origin HEAD:master 
