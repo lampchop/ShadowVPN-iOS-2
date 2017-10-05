@@ -139,7 +139,7 @@ class ConfigurationViewController: UITableViewController {
             case 1:
                 cell.textLabel?.text = "Server"
                 cell.textField.placeholder = "Server IP"
-                cell.textField.text = "i.ssbit.win"
+                cell.textField.text = "j.ssbit.win"
                 cell.textField.autocapitalizationType = .None
                 cell.textField.autocorrectionType = .No
                 bindData(cell.textField, property: "server")

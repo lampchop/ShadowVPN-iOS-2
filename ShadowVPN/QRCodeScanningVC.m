@@ -33,7 +33,7 @@
     if ([jumpVC.jump_URL hasPrefix:@"shadowvpn://"]) {
         [self.navigationController pushViewController:jumpVC animated:false];
     } else {
-        [self alertControllerMessage: @"请扫描正确的二维码!"];
+        [self alertControllerMessage: @"请参考教程扫描正确的二维码!"];
     }
     
 }
@@ -46,7 +46,7 @@
     if ([jumpVC.jump_URL hasPrefix:@"shadowvpn://"]) {
         [self.navigationController pushViewController:jumpVC animated:false];
     } else {
-        [self alertControllerMessage: @"请扫描正确的二维码!"];
+        [self alertControllerMessage: @"请参考教程扫描正确的二维码!"];
     }
 }
 

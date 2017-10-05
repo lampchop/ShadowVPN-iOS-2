@@ -156,7 +156,14 @@ class MainViewController: UITableViewController {
     
     //添加配置
     func addConfiguration() {
-        let menuArray = [KxMenuItem.init("Scan QR img",image: UIImage(named: "Scan QR img"),target: self,action: "clickMenu_1"),KxMenuItem.init("Manually Add",image: UIImage(named: "Manually Add"),target: self,action: "clickMenu_2"),KxMenuItem.init("Official Site",image: UIImage(named: "Official Site"),target: self,action: "clickMenu_3")]
+        let menuArray = [
+            KxMenuItem.init("Official Site",image: UIImage(named: "Official Site"),
+                target: self,action: "clickMenu_3"),
+            KxMenuItem.init("Scan QR img",image: UIImage(named: "Scan QR img"),
+                target: self,action: "clickMenu_1"),
+            KxMenuItem.init("Manually Add",image: UIImage(named: "Manually Add"),
+                target: self,action: "clickMenu_2")
+            ]
         /*设置菜单字体*/
         KxMenu.setTitleFont(UIFont(name: "HelveticaNeue", size: 15))
         
@@ -206,7 +213,7 @@ class MainViewController: UITableViewController {
             }
             else if status == .Denied {
                 // 用户拒绝当前应用访问相机
-                let alertC = UIAlertController(title: "⚠️ 警告", message: "请去-> [设置 - 隐私 - 相机 - SGQRCodeExample] 打开访问开关", preferredStyle: (.Alert))
+                let alertC = UIAlertController(title: "⚠️ 警告", message: "请去-> [设置 - 隐私 - 相机 - ShadowBit] 打开访问开关", preferredStyle: (.Alert))
                 let alertA = UIAlertAction(title: "确定", style: .Default, handler: {(action: UIAlertAction) -> Void in
                 })
                 alertC.addAction(alertA)
@@ -244,7 +251,8 @@ class MainViewController: UITableViewController {
     }
 
     func clickMenu_3() {
-        let safari = SFSafariViewController(URL: NSURL(string: "http://freesv.ishadow.pub")!)
+        let safari = SFSafariViewController(URL:
+                NSURL(string: "https://github.com/itrump/shadowbit/blob/master/README.md")!)
         self.presentViewController(safari, animated: true, completion: nil)
     }
     func loadConfigurationFromSystem() {

@@ -15,6 +15,7 @@ class ScanConfiguration: UITableViewController {
 //    var providerManager: NETunnelProviderManager?
 //    var bindMap = [String: AnyObject]()
 //    var configuration = [String: AnyObject]()
+  
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +75,9 @@ class ScanConfiguration: UITableViewController {
             configuration["route"] = "chnroutes"
             
             (manager.protocolConfiguration as! NETunnelProviderProtocol).providerConfiguration = configuration
-            manager.protocolConfiguration?.serverAddress =  configuration["server"] as? String
+            var server_ip: String = ""
+            server_ip = self.domain_resolve(configuration["server"]! as! String)
+            manager.protocolConfiguration?.serverAddress =  server_ip //configuration["server"] as? String
             manager.localizedDescription = configuration["server"] as? String
             
             manager.saveToPreferencesWithCompletionHandler({ (error) -> Void in
@@ -96,35 +99,38 @@ class ScanConfiguration: UITableViewController {
         self.presentViewController(alertController, animated: true, completion: { () -> Void in
         })
     }
-
+    
     //  对“server” 这个字段
     //    1. 若是域名转化为 ip地址
     //    2. 若非域名也就是已经是ip地址了，直接返回原字串
     func domain_resolve(server_string: String) -> String {
         // server string is already ip address
+        NSLog("in param:%@", server_string)
         if true == is_ip_address(server_string) {
             NSLog("%@ is already ip addres, skip resolve", server_string)
             return server_string
         }
+        NSLog("%@ is domain name, begin to resolve", server_string)
         let host = CFHostCreateWithName(nil,server_string).takeRetainedValue()
         CFHostStartInfoResolution(host, .Addresses, nil)
         var success: DarwinBoolean = false
         var resolve_ip_address: String = ""
         if let addresses = CFHostGetAddressing(host, &success)?.takeUnretainedValue() as NSArray?,
             let theAddress = addresses.firstObject as? NSData {
-            var hostname = [CChar](count: Int(NI_MAXHOST), repeatedValue: 0)
-            if getnameinfo(UnsafePointer(theAddress.bytes), socklen_t(theAddress.length),
-                           &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
-                if let numAddress = String.fromCString(hostname) {
-                    // print(numAddress)
-                    NSLog("%@ resolve result:%@", server_string, String(numAddress))
-                    resolve_ip_address = numAddress
+                var hostname = [CChar](count: Int(NI_MAXHOST), repeatedValue: 0)
+                if getnameinfo(UnsafePointer(theAddress.bytes), socklen_t(theAddress.length),
+                    &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
+                        if let numAddress = String.fromCString(hostname) {
+                            // print(numAddress)
+                            NSLog("%@ resolve result:%@", server_string, String(numAddress))
+                            resolve_ip_address = numAddress
+                        }
                 }
-            }
         }
         NSLog("get resolved ip address[%@]", resolve_ip_address)
         return resolve_ip_address
     }
+
     
     
     func is_ip_address(server_str: String) -> Bool {
